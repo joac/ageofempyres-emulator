@@ -50,7 +50,7 @@ class Tile(object):
         if self.own_hq:
             parts.append(HQ.format(PLAYER_ID, 0))
         elif self.enemy_hq:
-            parts.append(HQ.format(PLAYER_ID, 0))
+            parts.append(HQ.format(ENEMY_ID, 0))
 
         if self.enemy:
             parts.append(UNIT.format(ENEMY_ID, 0))
@@ -138,7 +138,7 @@ class Game(object):
 
     def run(self):
         while not (self.enemy_base_owned or self.all_enemies_killed or not self.turns):
-            time.sleep(0.5)
+            time.sleep(0.1)
             os.system('clear')
             self.process_turn()
             self.display()

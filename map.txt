@@ -24,7 +24,7 @@ BBBBBBBBBBBBBBBBB         BBBBBBBBBBBBBBBBBBBBBBBB
          BBBBBBBBBBBBBBBBBBBBBBBBB                
                                                   
                                                   
-                                                  
+      E               G            E              
                                                   
                  B    E    B                      
                  B         B                      
@@ -32,19 +32,3 @@ BBBBBBBBBBBBBBBBB         BBBBBBBBBBBBBBBBBBBBBBBB
                  B         B                      
                  B         B                      
 BBBBBBBBBBBBBBBBBB         BBBBBBBBBBBBBBBBBBBBBBB
-                                                  
-                                                  
-       E                            E             
-                                                  
-                                                  
-                                                  
-                                                  
-                                                  
-                                                  
-          BBBBBBBBBBBBBBBBBBBBBB                  
-          B                    B                  
-          B                    B                  
-                    G                             
-                                                  
-                                                  
-                                                  
