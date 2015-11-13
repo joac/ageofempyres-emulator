@@ -1,7 +1,9 @@
+# -*- coding: utf8 -*-
 import os
 import time
 from functools import partial
 from termcolor import colored
+from itertools import product
 
 PLAYER_ID = 1
 ENEMY_ID = 2
@@ -9,18 +11,38 @@ ENEMY_ID = 2
 HQ = "H:{}Id:{}"
 UNIT = "U:{}Id:{}"
 BLOCKER = "B"
+FOG = "F"
 
+FOG_VECTOR_MAP = list(product(xrange(-3, 4), repeat=2))
 
 class Tile(object):
 
-    def __init__(self, enemy=False, blocked=False, own_hq=False, enemy_hq=False):
+    def __init__(self, x, y, game_map=None, enemy=False, blocked=False, own_hq=False, enemy_hq=False):
+        self.x = x
+        self.y = y
+        self.game_map = game_map
         self.enemy = enemy
         self.blocked = blocked
         self.own_hq = own_hq
         self.enemy_hq = enemy_hq
         self.units = []
 
+    @property
+    def visible(self):
+        for x, y in FOG_VECTOR_MAP:
+            try:
+                tile = self.game_map[self.y + y][self.x + x]
+            except IndexError:
+                continue
+
+            if tile.units or self.own_hq:
+                return True
+        else:
+            return False
+
     def __repr__(self):
+        if not self.visible:
+            return FOG
         if self.blocked:
             return BLOCKER
 
@@ -38,6 +60,8 @@ class Tile(object):
         return ",".join(parts)
 
     def __str__(self):
+        if not self.visible:
+            return colored('·', 'green', 'on_grey')
         if self.blocked:
             return colored('B', 'grey', 'on_white')
         if self.enemy_hq:
@@ -78,7 +102,7 @@ class Game(object):
         for y, line in enumerate(fh.readlines()):
             row = []
             for x, letter in enumerate(line.replace('\n', '')):
-                row.append(CHAR_TILE_MAP.get(letter)())
+                row.append(CHAR_TILE_MAP.get(letter)(x, y, game_map=self.game_map))
                 if letter == 'H':
                     self.base = (x, y)
                 elif letter == 'G':
