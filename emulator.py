@@ -8,7 +8,7 @@ from itertools import product
 PLAYER_ID = 1
 ENEMY_ID = 2
 
-HQ = "H:{}Id:{}"
+HQ = "HQ:{}Id:{}"
 UNIT = "U:{}Id:{}"
 BLOCKER = "B"
 FOG = "F"
