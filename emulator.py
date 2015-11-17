@@ -4,6 +4,7 @@ import os
 import time
 from functools import partial
 from itertools import product
+from blessings import Terminal
 
 from termcolor import colored
 
@@ -16,6 +17,8 @@ BLOCKER = "B"
 FOG = "F"
 
 FOG_VECTOR_MAP = list(product(xrange(-3, 4), repeat=2))
+
+term = Terminal()
 
 
 class Tile(object):
@@ -65,7 +68,7 @@ class Tile(object):
 
     def __str__(self):
         if not self.visible:
-            return colored('·', 'green', 'on_grey')
+            return colored('*', 'green', 'on_grey')
         if self.blocked:
             return colored('B', 'grey', 'on_white')
         if self.enemy_hq:
@@ -121,8 +124,8 @@ class Game(object):
         self.game_map[y][x].units = self.units.keys()
 
     def display(self):
-        for row in self.game_map:
-            print(''.join(str(t) for t in row))
+        with term.location():
+            print(term.move(0, 0) + u'\n'.join((u''.join(str(t) for t in row) for row in self.game_map)))
 
     @property
     def enemy_base_owned(self):
@@ -143,7 +146,6 @@ class Game(object):
     def run(self):
         while not (self.enemy_base_owned or self.all_enemies_killed or not self.turns):
             time.sleep(0.1)
-            os.system('clear')
             self.process_turn()
             self.display()
             self.turns -= 1
@@ -178,6 +180,7 @@ class Game(object):
 if __name__ == "__main__":
     #from script import Bot
     from bot import Bot
-    with open('map.txt') as fh:
-        game_map = Game(fh, Bot())
-        game_map.run()
+    with term.fullscreen():
+        with open('map.txt') as fh:
+            game_map = Game(fh, Bot())
+            game_map.run()
