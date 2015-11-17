@@ -1,9 +1,11 @@
 # -*- coding: utf8 -*-
+from __future__ import print_function
 import os
 import time
 from functools import partial
-from termcolor import colored
 from itertools import product
+
+from termcolor import colored
 
 PLAYER_ID = 1
 ENEMY_ID = 2
@@ -14,6 +16,7 @@ BLOCKER = "B"
 FOG = "F"
 
 FOG_VECTOR_MAP = list(product(xrange(-3, 4), repeat=2))
+
 
 class Tile(object):
 
@@ -29,14 +32,15 @@ class Tile(object):
 
     @property
     def visible(self):
+        w = len(self.game_map[0])
+        h = len(self.game_map)
         for x, y in FOG_VECTOR_MAP:
-            try:
-                tile = self.game_map[self.y + y][self.x + x]
-            except IndexError:
-                continue
-
-            if tile.units or self.own_hq:
-                return True
+            x += self.x
+            y += self.y
+            if all((0 <= x,  x < w, 0 <= y, y < h)):
+                tile = self.game_map[y][x]
+                if tile.units or self.own_hq:
+                    return True
         else:
             return False
 
@@ -118,7 +122,7 @@ class Game(object):
 
     def display(self):
         for row in self.game_map:
-            print ''.join(str(t) for t in row)
+            print(''.join(str(t) for t in row))
 
     @property
     def enemy_base_owned(self):
@@ -145,9 +149,9 @@ class Game(object):
             self.turns -= 1
 
         if self.enemy_base_owned or self.all_enemies_killed:
-            print "You win!!"
+            print("You win!!")
         elif not self.turns:
-            print "Game over"
+            print("Game over")
 
     def process_turn(self):
         """This dont validate anything"""
