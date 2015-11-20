@@ -62,13 +62,13 @@ class Map(dict):
 class GameBot(object):
 
     NW = PointInMap(-1, -1)
-    N = PointInMap(-1, 0)
-    NE = PointInMap(-1, 1)
-    E = PointInMap(0, 1)
+    N = PointInMap(0, -1)
+    NE = PointInMap(1, -1)
+    E = PointInMap(1, 0)
     SE = PointInMap(1, 1)
-    S = PointInMap(1, 0)
-    SW = PointInMap(1, -1)
-    W = PointInMap(0, -1)
+    S = PointInMap(0, 1)
+    SW = PointInMap(-1, 1)
+    W = PointInMap(-1, 0)
 
     DIRECTIONS = [NW, N, NE, W, SE, S, SW, W]
 
